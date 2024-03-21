@@ -5,9 +5,6 @@ import * as mysql from './db';
 import { Router} from 'express';
 const app = Router();
 
-// const app = express();
-
-// const app1: express = express();
 
 app.use(express.json());
 app.use(cors());
@@ -27,10 +24,6 @@ app.get('/', async (req, res) => {
     const decodedToken = jwt.verify(getTokenFromHeader, signatureKey) as TokenPayload;
 
     console.log(decodedToken.ID);
-
-    // const decodedToken = jwt.verify(getTokenFromHeader, signatureKey);
-
-    // console.log(decodedToken);
 
     try {
         const resultOfQuery1 = await  mysql.query(`CALL SenderData(?)`, [decodedToken.ID]);

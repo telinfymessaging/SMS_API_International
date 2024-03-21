@@ -47,13 +47,12 @@ app.use(cors());
 var signatureKey = 'pavan123@';
 var option = { expiresIn: '1h' };
 app.post('/login', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var uname, pwd, query_str, responseData, result, token, error_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var _a, uname, pwd, query_str, responseData, result, token, error_1;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                uname = req.body.uname;
-                pwd = req.body.pwd;
+                _b.trys.push([0, 2, , 3]);
+                _a = req.body, uname = _a.uname, pwd = _a.pwd;
                 query_str = "CALL Check_User(?,?,@uid,@uname); SELECT @uid UID, @uname UNAME";
                 responseData = {
                     status: 400,
@@ -67,7 +66,7 @@ app.post('/login', function (req, res) { return __awaiter(void 0, void 0, void 0
                 };
                 return [4 /*yield*/, mysql.query(query_str, [uname, pwd])];
             case 1:
-                result = _a.sent();
+                result = _b.sent();
                 console.log(result, "1");
                 if (result[1][0].UID > 0) {
                     token = jwt.sign({ ID: result[1][0].UID, NAME: result[1][0].UNAME }, signatureKey, option);
@@ -85,12 +84,6 @@ app.post('/login', function (req, res) { return __awaiter(void 0, void 0, void 0
                     res.status(200).json({
                         Message: responseData
                     });
-                    // res.status(200).json({
-                    //     message: "Authentication successful",
-                    //     UID: result[1][0].UID,
-                    //     UNAME: result[1][0].UNAME,
-                    //     token
-                    // })
                 }
                 else {
                     res.status(400).json({
@@ -99,7 +92,7 @@ app.post('/login', function (req, res) { return __awaiter(void 0, void 0, void 0
                 }
                 return [3 /*break*/, 3];
             case 2:
-                error_1 = _a.sent();
+                error_1 = _b.sent();
                 console.error("error occurred", error_1);
                 res.status(400).send({
                     "code": 400,

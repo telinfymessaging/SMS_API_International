@@ -4,21 +4,8 @@ import * as jwt from 'jsonwebtoken';
 import * as mysql from './db';
 import { Router } from 'express';
 import { error } from 'console';
-
-
-
+import * as inter from './Interfaces/Ilogin'
 const app = Router();
-interface loginres{
-    status:number,
-    data:{
-        message: string,
-        UID: number,
-        UNAME:string,
-        token:string
-    },
-    error:string
-}
-
 app.use(express.json());
 app.use(cors());
 
@@ -27,16 +14,11 @@ const signatureKey = 'pavan123@';
 const option = { expiresIn: '1h' };
 
 app.post('/login', async (req, res) => {
-    // const uname = req.body.uname;
-    // const pwd = req.body.pwd;
-    // const query_str = `CALL Check_User(?,?,@uid,@uname); SELECT @uid UID, @uname UNAME`;
-
     try {
-        const uname = req.body.uname;
-        const pwd = req.body.pwd;
+        let {uname,pwd}=req.body as inter.ILogin
         const query_str = `CALL Check_User(?,?,@uid,@uname); SELECT @uid UID, @uname UNAME`;
     
-        let responseData :loginres = {
+        let responseData : inter.ILoginResponce= {
             status : 400,
             data : {
                 message : "null",
@@ -65,13 +47,6 @@ app.post('/login', async (req, res) => {
             res.status(200).json({
             Message : responseData
             })
-            // res.status(200).json({
-            //     message: "Authentication successful",
-            //     UID: result[1][0].UID,
-            //     UNAME: result[1][0].UNAME,
-            //     token
-            // })
-            
         } else {
             res.status(400).json({
                 message: responseData
