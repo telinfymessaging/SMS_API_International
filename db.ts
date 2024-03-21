@@ -1,6 +1,8 @@
 import * as mysql from 'mysql2';
 import * as util from "util";
 
+
+
 const pool = mysql.createPool({
   host: 'localhost',
   connectionLimit: 10,

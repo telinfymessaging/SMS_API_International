@@ -18,7 +18,7 @@ app.post('/login', async (req, res) => {
         let {uname,pwd}=req.body as inter.ILogin
         const query_str = `CALL Check_User(?,?,@uid,@uname); SELECT @uid UID, @uname UNAME`;
     
-        let responseData :inter.ILoginResponce = {
+        let responseData : inter.ILoginResponce= {
             status : 400,
             data : {
                 message : "null",
@@ -47,7 +47,6 @@ app.post('/login', async (req, res) => {
             res.status(200).json({
             Message : responseData
             })
-            
         } else {
             res.status(400).json({
                 message: responseData
